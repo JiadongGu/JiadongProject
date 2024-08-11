@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chainName: Shoes
   companies:
-  - companyName: Running
+  - companyName: Swift Footwear
     retailItems:
     - {fileID: 11400000, guid: 7c2b701327bc7484285cd4ceeac04d7f, type: 2}
-  - companyName: Crocs
+  - companyName: Comfort Soles
     retailItems:
     - {fileID: 11400000, guid: 90118e0bfc47f80448e3bcd0a22a6b83, type: 2}

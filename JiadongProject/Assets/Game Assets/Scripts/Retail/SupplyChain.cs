@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 [CreateAssetMenu()]
@@ -19,6 +20,6 @@ public class SupplyChain : ScriptableObject
     public class SupplyCompany
     {
         public string companyName;
-        public List<RetailItem> retailItems = new List<RetailItem>();
+        [Expandable] public List<RetailItem> retailItems = new List<RetailItem>();
     }
 }
