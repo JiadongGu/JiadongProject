@@ -6,6 +6,10 @@ using UnityEngine;
 public class SupplyChain : ScriptableObject
 {
     public string chainName;
+    [ShowAssetPreview] public Sprite chainIcon;
+
+    [HorizontalLine]
+
     public List<SupplyCompany> companies = new List<SupplyCompany>();
 
     public RetailItem GetRandomRetailItem()
@@ -20,6 +24,7 @@ public class SupplyChain : ScriptableObject
     public class SupplyCompany
     {
         public string companyName;
+        [ShowAssetPreview] public Sprite companyIcon;
         [Expandable] public List<RetailItem> retailItems = new List<RetailItem>();
     }
 }

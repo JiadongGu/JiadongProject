@@ -9,8 +9,27 @@ public class RetailInventory : MonoBehaviour
     [ReadOnly] public List<InventoryStock> allAvailableItems = new List<InventoryStock>();
     public List<InventoryStock> allStockItems = new List<InventoryStock>();
 
+    [HorizontalLine]
+
+    public GameObject noneTextObj;
+    public ObjectPooler invSlotPool;
+
+    public System.Action OnStockChange; 
+
     void Start()
     {
+        OnStockChange += () =>
+        {
+            noneTextObj.gameObject.SetActive(allStockItems.Count == 0);
+
+            invSlotPool.ResetActiveObjectsToPool();
+            foreach (var item in allStockItems)
+            {
+                RetailInventorySlot newSlot = invSlotPool.GrabFromPool(Vector3.zero, Quaternion.identity).GetComponent<RetailInventorySlot>();
+                newSlot.Init(item);
+            }
+        };
+        OnStockChange.Invoke();
         PopulateAvailableItems();
     }
 
@@ -22,16 +41,17 @@ public class RetailInventory : MonoBehaviour
             {
                 foreach (var item in company.retailItems)
                 {
-                    InventoryStock newStockitem = new InventoryStock();
-                    newStockitem.itemData = item;
-                    newStockitem.cogsPrice = (int)Random.Range(item.cogsRange.x, item.cogsRange.y);
+                    InventoryStock newStockitem = new InventoryStock
+                    {
+                        itemData = item,
+                        cogsPrice = (int)Random.Range(item.cogsRange.x, item.cogsRange.y)
+                    };
 
                     allAvailableItems.Add(newStockitem);
                 }
             }
         }
     }
-
 
     [Button]
     public void AddRandomItemToStock()
@@ -51,6 +71,7 @@ public class RetailInventory : MonoBehaviour
             if (item.itemData.name == retailItem.name)
             {
                 item.quantity++;
+                OnStockChange?.Invoke();
                 return;
             }
         }
@@ -61,6 +82,8 @@ public class RetailInventory : MonoBehaviour
         newStock.quantity = 1;
         newStock.cogsPrice = cogsPrice;
         allStockItems.Add(newStock);
+
+        OnStockChange?.Invoke();
     }
 
     public bool RemoveItemFromInventory(RetailItem retailItem, int amount)
@@ -72,8 +95,11 @@ public class RetailInventory : MonoBehaviour
                 if(QuantityAvailable(retailItem, amount))   // Do we have enough items in our stock to sell this
                 {
                     item.quantity -= amount;
-                    if(item.quantity == 0) allStockItems.Remove(item);
-
+                    if(item.quantity == 0)
+                    {
+                        allStockItems.Remove(item);
+                    }
+                    OnStockChange?.Invoke();
                     return true;    // We successfully removed the item
                 }
                 else
