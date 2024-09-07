@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Swift Sneakers
   orderTimeSeconds: 10
   cogsRange: {x: 15, y: 40}
-  icon: {fileID: 21300000, guid: d67c1a2fa297cf24388b8c9cdd42ae9f, type: 3}
+  icon: {fileID: 21300000, guid: c477a38fe442740109c2a687f822fb93, type: 3}

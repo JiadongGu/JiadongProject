@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95fafe704e152b46bc08c13d22b07ef, type: 3}
+  m_Name: Accessories Supply Chain
+  m_EditorClassIdentifier: 
+  chainName: Accessories
+  chainIcon: {fileID: 0}
+  companies:
+  - companyName: Jane's Jewels
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 45f4c5310de6f4eb5831025375ea2943, type: 2}
+    - {fileID: 11400000, guid: 1f1112719f5ed4e7ab0e6202753f47cd, type: 2}
+    - {fileID: 11400000, guid: 7f7238e989f2c42978843af0e622c418, type: 2}
+    - {fileID: 11400000, guid: cf323a7534c994568975e502a9224646, type: 2}
+    - {fileID: 11400000, guid: d967c0e170cde449c9a635c34e15c968, type: 2}
+  - companyName: D'Amore
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 4c075a4c0624845b48444f21d39991e5, type: 2}
+    - {fileID: 11400000, guid: 0e13e5ee1a8fd4b67b2165587f394cc3, type: 2}
+    - {fileID: 11400000, guid: 6fd29978ca0bc4c46852ebaed49db28c, type: 2}
+    - {fileID: 11400000, guid: 44607f8b1b0934522be4e1188a47be79, type: 2}
+    - {fileID: 11400000, guid: 8172c877b27a643f2aede609b46d3446, type: 2}
+  - companyName: New York Special
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: f8307dd79688b4f2095c1ffd732f222a, type: 2}
+    - {fileID: 11400000, guid: 36c7d586b563f4e41addf0e754c59fbe, type: 2}
+    - {fileID: 11400000, guid: 3ea195164bcf64260a4cb5c2d4654aec, type: 2}
+    - {fileID: 11400000, guid: bc10377f718aa480d9efb585f72a0ebf, type: 2}
+    - {fileID: 11400000, guid: 0150f23d9a8a246a3a629e8abfa68004, type: 2}

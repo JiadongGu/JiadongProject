@@ -18,8 +18,24 @@ MonoBehaviour:
   - companyName: Swift Footwear
     companyIcon: {fileID: 21300000, guid: 2a03752f0a2bc814f84b75ed3e1ce3c6, type: 3}
     retailItems:
-    - {fileID: 11400000, guid: 7c2b701327bc7484285cd4ceeac04d7f, type: 2}
+    - {fileID: 11400000, guid: d4a52cb1b20aa434e8732618ea2c87ab, type: 2}
+    - {fileID: 11400000, guid: e9a2b0cb88387459e98d468c3d712446, type: 2}
+    - {fileID: 11400000, guid: 8aee2258ddbfb452094cc072d2615667, type: 2}
+    - {fileID: 11400000, guid: 90118e0bfc47f80448e3bcd0a22a6b83, type: 2}
+    - {fileID: 11400000, guid: a71fffb6bbd694f6d886231ba6e665d4, type: 2}
   - companyName: Comfort Soles
     companyIcon: {fileID: 21300000, guid: c0555a32996dbd1469a4fe4792f3d942, type: 3}
     retailItems:
-    - {fileID: 11400000, guid: 90118e0bfc47f80448e3bcd0a22a6b83, type: 2}
+    - {fileID: 11400000, guid: b5ac7bbdc676542a2964422411cf9dd5, type: 2}
+    - {fileID: 11400000, guid: a44299bd238f14c93bf55dfb1563c4c7, type: 2}
+    - {fileID: 11400000, guid: 7984c18de9b264d2fac6b2dc206577c4, type: 2}
+    - {fileID: 11400000, guid: d3ff1fac8edf14bf99441b9321bd6cad, type: 2}
+    - {fileID: 11400000, guid: 7c2b701327bc7484285cd4ceeac04d7f, type: 2}
+  - companyName: Arthur's Rockers
+    companyIcon: {fileID: 21300000, guid: c0555a32996dbd1469a4fe4792f3d942, type: 3}
+    retailItems:
+    - {fileID: 11400000, guid: 9385b53c38f3f4429b8e78eda00f3ea1, type: 2}
+    - {fileID: 11400000, guid: c3949231e8d694c1db013a74e50c7320, type: 2}
+    - {fileID: 11400000, guid: 712b1a82ee2164a40875ec0ed589ab94, type: 2}
+    - {fileID: 11400000, guid: 3c0aabfecd5044a9bb65d6f989052a5c, type: 2}
+    - {fileID: 11400000, guid: 877bd98cc8557416c9f32e21b7a41874, type: 2}

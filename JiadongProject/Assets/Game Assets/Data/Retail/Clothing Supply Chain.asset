@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95fafe704e152b46bc08c13d22b07ef, type: 3}
+  m_Name: Clothing Supply Chain
+  m_EditorClassIdentifier: 
+  chainName: 
+  chainIcon: {fileID: 0}
+  companies:
+  - companyName: Fast Fits
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: d85e998efbf3a49608a58514aaa71d2a, type: 2}
+    - {fileID: 11400000, guid: 9c2bc235778b848c09ba2c160f149766, type: 2}
+    - {fileID: 11400000, guid: 0f7431aa0ec3c406284ae310118cdf16, type: 2}
+    - {fileID: 11400000, guid: 41e8f40a304484219a099fd506b1b44e, type: 2}
+    - {fileID: 11400000, guid: f978dbe8b8b9e4006aeaab1f1ed223f2, type: 2}
+  - companyName: McClough Bespoke
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: b87c1e3be9a694d44af70c94ddd6f1d4, type: 2}
+    - {fileID: 11400000, guid: e4e4f625795af40fe96940598bc42fe2, type: 2}
+    - {fileID: 11400000, guid: f9ff3c8e0593f4825ab59e0057bbbdf0, type: 2}
+    - {fileID: 11400000, guid: debb1c82ae15d4c04a31a9ac3b9cbc0c, type: 2}
+    - {fileID: 11400000, guid: b0d0226e3e63341eaafa09226f233139, type: 2}
+  - companyName: Malleneye
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 5be8378db29744eea86977f1a9b66032, type: 2}
+    - {fileID: 11400000, guid: ffc4a36da7ae8477c8f09606d5be398e, type: 2}
+    - {fileID: 11400000, guid: 3a23197a17abe4b6ea125276508ae6e4, type: 2}
+    - {fileID: 11400000, guid: a153607eba57747a08318ea0cae0063b, type: 2}
+    - {fileID: 11400000, guid: 52043de83db25479da1a5220d12a1d27, type: 2}

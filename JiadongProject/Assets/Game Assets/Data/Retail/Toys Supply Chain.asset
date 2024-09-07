@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95fafe704e152b46bc08c13d22b07ef, type: 3}
+  m_Name: Toys Supply Chain
+  m_EditorClassIdentifier: 
+  chainName: 
+  chainIcon: {fileID: 0}
+  companies:
+  - companyName: Toys 4 Us
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: fb09c26e9d27747f48fa2bfa0381bf94, type: 2}
+    - {fileID: 11400000, guid: 4f984939f4f804d19b622d63d119d50c, type: 2}
+    - {fileID: 11400000, guid: 247499393f01a4b4a8408e4a7505e418, type: 2}
+    - {fileID: 11400000, guid: 00c1d71b735ea4a9b94357a412eeca79, type: 2}
+    - {fileID: 11400000, guid: b99a3bcc393c842e3906b16f56311dc2, type: 2}
+  - companyName: Toyland
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 05884905b5a134b5680969ae682c0ab6, type: 2}
+    - {fileID: 11400000, guid: d132103078f5044f39f25e5a6a561d33, type: 2}
+    - {fileID: 11400000, guid: 8a670adb7786d4b07aa27c45c77b4d04, type: 2}
+    - {fileID: 11400000, guid: 1400c5326c54d48b9b222f5d9b1b7b9c, type: 2}
+    - {fileID: 11400000, guid: b17478003e4bf4d5ab8c8ed58d4ec9c7, type: 2}
+  - companyName: The Funmakers
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 06d8390f5fbbe490e9f387bfe4bd98eb, type: 2}
+    - {fileID: 11400000, guid: 654383e632c2040a0b50d7b60b4ddf98, type: 2}
+    - {fileID: 11400000, guid: 622fda7cac1bb45dc8fac2025c650c98, type: 2}
+    - {fileID: 11400000, guid: 43e4cdaa9fbb44b13bcdb0f77e41b0c7, type: 2}
+    - {fileID: 11400000, guid: 854dbe140427144e895a6f733f804b0b, type: 2}

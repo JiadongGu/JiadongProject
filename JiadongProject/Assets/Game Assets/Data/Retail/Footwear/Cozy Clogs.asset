@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Cozy Clogs
   orderTimeSeconds: 5
   cogsRange: {x: 15, y: 30}
-  icon: {fileID: 21300000, guid: c8200e7426caf764fb9461490f32e2fd, type: 3}
+  icon: {fileID: 21300000, guid: a30fcc290f8ae498c89a1e38117722e9, type: 3}

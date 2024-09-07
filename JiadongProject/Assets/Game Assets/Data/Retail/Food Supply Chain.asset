@@ -15,6 +15,33 @@ MonoBehaviour:
   chainName: Food
   chainIcon: {fileID: 0}
   companies:
-  - companyName: Crust Bakery
+  - companyName: Rise Produce
     companyIcon: {fileID: 0}
-    retailItems: []
+    retailItems:
+    - {fileID: 11400000, guid: 41400f518057a4a07abe5c8006d7247b, type: 2}
+    - {fileID: 11400000, guid: f9155cfecb85c4edb89d3b191688049f, type: 2}
+    - {fileID: 11400000, guid: b53d285d83623460a8c8fb7687320e88, type: 2}
+  - companyName: Harvest Haven
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 139ee9c50a22442fb8205b0f98a0d41a, type: 2}
+    - {fileID: 11400000, guid: 2ba1136cb64404856aa86a2b23e9405e, type: 2}
+    - {fileID: 11400000, guid: e3c69f74f2ba2475bb3b38b10077a556, type: 2}
+  - companyName: Sunrise Pantry
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 03f1fb7d320b54dc2bfeb396713826ae, type: 2}
+    - {fileID: 11400000, guid: ea28b32df699740aea01d71de4db4354, type: 2}
+    - {fileID: 11400000, guid: 11b83dc8306c647d099868128b1e2a81, type: 2}
+  - companyName: McHarvey Co
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: 58e6b35e935164d4c9fa72f9797ce0bf, type: 2}
+    - {fileID: 11400000, guid: 58ce3aa5ae4a2473c9b0447e9e74a2e4, type: 2}
+    - {fileID: 11400000, guid: 684f3c56d8ee9425f9946f57efde1812, type: 2}
+  - companyName: Pure Organic
+    companyIcon: {fileID: 0}
+    retailItems:
+    - {fileID: 11400000, guid: eaaaede62f69b4c239f53ff90835bc1e, type: 2}
+    - {fileID: 11400000, guid: 5ec0bdff0929d430aa0e228b9c7f5952, type: 2}
+    - {fileID: 11400000, guid: 11b52d9e0dec14b489a627c9cdd9418f, type: 2}
