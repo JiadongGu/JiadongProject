@@ -20,7 +20,7 @@ public class RetailInventory : MonoBehaviour
     {
         OnStockChange += () =>
         {
-            noneTextObj.gameObject.SetActive(allStockItems.Count == 0);
+            noneTextObj.SetActive(allStockItems.Count == 0);
 
             invSlotPool.ResetActiveObjectsToPool();
             foreach (var item in allStockItems)
