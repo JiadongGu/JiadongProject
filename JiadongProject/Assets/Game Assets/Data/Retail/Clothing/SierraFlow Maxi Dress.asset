@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: SierraFlow Maxi Dress
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: SierraFlow Maxi Dress
+  orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: 13c9487fa7eda4f5eaac5bde9f13db33, type: 3}

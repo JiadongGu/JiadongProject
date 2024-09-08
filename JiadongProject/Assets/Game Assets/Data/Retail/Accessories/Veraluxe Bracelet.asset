@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: Veraluxe Bracelet
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: Veraluxe Bracelet
+  orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: 3297064ecb65a4e7784639db558521cf, type: 3}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: SonicStream Wireless Speaker
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: SonicStream Wireless Speaker
+  orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: a0519a08b3d6f48939c6c610a6d57150, type: 3}

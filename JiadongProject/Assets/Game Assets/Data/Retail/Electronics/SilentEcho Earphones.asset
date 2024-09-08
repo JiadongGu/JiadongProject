@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: SilentEcho Earphones
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: SilentEcho Earphones
+  orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: 59ea89f6f9e3c44f19d61e41ac97056f, type: 3}

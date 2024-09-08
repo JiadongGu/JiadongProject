@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95fafe704e152b46bc08c13d22b07ef, type: 3}
   m_Name: Toys Supply Chain
   m_EditorClassIdentifier: 
-  chainName: 
-  chainIcon: {fileID: 0}
+  chainName: Toys
+  chainIcon: {fileID: 21300000, guid: 11edc99ed298443e4ad9725ebd62d6a5, type: 3}
   companies:
   - companyName: Toys 4 Us
     companyIcon: {fileID: 0}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: Celeste Turtleneck
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: Celeste Turtleneck
+  orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: f3de1b5b9d7ec42a8b93e15afa5b2907, type: 3}

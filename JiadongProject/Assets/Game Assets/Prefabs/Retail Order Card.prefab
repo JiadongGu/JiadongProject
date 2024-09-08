@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 7438149193685475127}
   - component: {fileID: 7085094538994013234}
   m_Layer: 5
-  m_Name: Order Status Cards
+  m_Name: Retail Order Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

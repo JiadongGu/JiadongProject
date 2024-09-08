@@ -15,6 +15,7 @@ public class RetailInventory : MonoBehaviour
     public ObjectPooler invSlotPool;
 
     public System.Action OnStockChange; 
+    public System.Action OnAvailableItemsRefreshed;
 
     void Start()
     {
@@ -51,6 +52,8 @@ public class RetailInventory : MonoBehaviour
                 }
             }
         }
+
+        OnAvailableItemsRefreshed?.Invoke();
     }
 
     [Button]

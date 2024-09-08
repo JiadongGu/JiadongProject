@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Accessories Supply Chain
   m_EditorClassIdentifier: 
   chainName: Accessories
-  chainIcon: {fileID: 0}
+  chainIcon: {fileID: 21300000, guid: aa882abd970d84840ae039ee27d2b2db, type: 3}
   companies:
   - companyName: Jane's Jewels
     companyIcon: {fileID: 0}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b170fbbf00d27fb4da75bbe99cf7118b, type: 3}
   m_Name: Swiftstep loafers
   m_EditorClassIdentifier: 
-  itemName: 
-  orderTimeSeconds: 0
+  itemName: Swiftstep loafers
+  orderTimeSeconds: 10
   cogsRange: {x: 15, y: 40}
   icon: {fileID: 21300000, guid: cdc7dadf014bd460ea7579fb8f0fdffe, type: 3}
