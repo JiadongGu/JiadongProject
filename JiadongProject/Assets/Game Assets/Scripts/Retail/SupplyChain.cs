@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -12,6 +13,14 @@ public class SupplyChain : ScriptableObject
 
     public List<SupplyCompany> companies = new List<SupplyCompany>();
 
+    [System.Serializable]
+    public class SupplyCompany
+    {
+        public string companyName;
+        [ShowAssetPreview] public Sprite companyIcon;
+        [Expandable] public List<RetailItem> retailItems = new List<RetailItem>();
+    }
+
     public RetailItem GetRandomRetailItem()
     {
         SupplyCompany randomCompany = companies[Random.Range(0, companies.Count)];
@@ -20,11 +29,13 @@ public class SupplyChain : ScriptableObject
         return retailItem;
     }
 
-    [System.Serializable]
-    public class SupplyCompany
+    public bool DoesRetailItemExist(RetailItem item)
     {
-        public string companyName;
-        [ShowAssetPreview] public Sprite companyIcon;
-        [Expandable] public List<RetailItem> retailItems = new List<RetailItem>();
+        return companies.Any(company => company.retailItems.Contains(item)); 
+    }
+
+    public List<RetailItem> GetAllRetailItems()
+    {
+        return companies.SelectMany(company => company.retailItems).ToList();
     }
 }

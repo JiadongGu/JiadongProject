@@ -4,7 +4,7 @@ using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class RetailOrdering : MonoBehaviour
+public class RetailOrdering : Singleton<RetailOrdering>
 {
     public RetailInventory inventory;
     public List<StatusItem> statusItems = new List<StatusItem>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class RetailInventory : MonoBehaviour
+public class RetailInventory : Singleton<RetailInventory>
 {
     [Expandable] public List<SupplyChain> allSupplyChains = new List<SupplyChain>();
     [ReadOnly] public List<InventoryStock> allAvailableItems = new List<InventoryStock>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
@@ -8,6 +9,10 @@ using UnityEngine.UI;
 public class RetailItemOrderSearchCard : MonoBehaviour
 {
     [ReadOnly] public RetailInventory.InventoryStock stock;
+    [ReadOnly] public float totalPrice;
+
+    [HorizontalLine]
+
     public Image icon;
     public TMP_Text nameText;
     public TMP_Text cogsPriceText;
@@ -16,6 +21,9 @@ public class RetailItemOrderSearchCard : MonoBehaviour
     public Button subtractButton;
     public Button addButton;
     public TMP_InputField quantityField;
+    
+
+    Action OnQuantityChange;
 
     public void Init(RetailInventory.InventoryStock stock)
     {
@@ -26,23 +34,46 @@ public class RetailItemOrderSearchCard : MonoBehaviour
         SetQuantity(stock.reorderAmount);
 
         cogsPriceText.text = "COGS: $" + stock?.cogsPrice.ToString("F2");
-        totalPriceText.text = "Total: $" + (stock?.reorderAmount * stock?.cogsPrice)?.ToString("F2");
+        UpdateTotalPrice();
 
         quantityField.onValueChanged.RemoveAllListeners();
         subtractButton.onClick.RemoveAllListeners();
         addButton.onClick.RemoveAllListeners();
 
-        quantityField.onValueChanged.AddListener(OnQuantityChanged);
+        quantityField.onValueChanged.AddListener(OnQuantityFieldChangedCallback);
         subtractButton.onClick.AddListener(() => ChangeQuantity(-1));
         addButton.onClick.AddListener(() => ChangeQuantity(1));
+
+        OnQuantityChange += UpdateTotalPrice;
+        orderButton.onClick.AddListener(Order);
     }
 
-    void OnQuantityChanged(string newValue)
+    void OnQuantityFieldChangedCallback(string newValue)
     {
         if (int.TryParse(newValue, out int quantity))
         {
             SetQuantity(quantity);
         }
+    }
+
+    void Order()
+    {
+        if(GetOrderAmount() <= 0)
+        {
+            print($"You have to order at least 1 of {stock.itemData.itemName} to start the order!");
+            return;
+        }
+            
+        if(MoneyManager.Instance.money >= totalPrice)
+            RetailOrdering.Instance.ReorderItem(stock.itemData, GetOrderAmount());
+        else
+            print($"You do not have enough money to order {GetOrderAmount()}x of {stock.itemData.itemName}!");
+    }
+
+    void UpdateTotalPrice()
+    {
+        totalPrice = stock.reorderAmount * stock.cogsPrice;
+        totalPriceText.text = "Total: $" + totalPrice.ToString("F2");
     }
 
     void SetQuantity(int newAmount)
@@ -54,6 +85,8 @@ public class RetailItemOrderSearchCard : MonoBehaviour
         }
         stock.reorderAmount = newAmount;
         quantityField.text = stock?.reorderAmount + "";
+
+        OnQuantityChange?.Invoke();
     }
 
     void ChangeQuantity(int amount)
@@ -64,5 +97,10 @@ public class RetailItemOrderSearchCard : MonoBehaviour
             return;
         }
         SetQuantity(stock.reorderAmount + amount);
+    }
+
+    int GetOrderAmount()
+    {
+        return stock.reorderAmount;
     }
 }
