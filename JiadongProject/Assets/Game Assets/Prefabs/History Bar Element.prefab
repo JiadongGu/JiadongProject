@@ -1184,6 +1184,7 @@ GameObject:
   - component: {fileID: 8699754423227557996}
   - component: {fileID: 4649673332104414448}
   - component: {fileID: 1462079568680406194}
+  - component: {fileID: 4629199812029603260}
   m_Layer: 5
   m_Name: History Bar Element
   m_TagString: Untagged
@@ -1278,6 +1279,31 @@ MonoBehaviour:
   m_Spacing: {x: 3, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
+--- !u!114 &4629199812029603260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338772761821102415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c07c5a60d13164197e394af94ed34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  retailHistory:
+    day: 0
+    startMoney: 0
+    endMoney: 0
+    salesRevenue: 0
+    grossProfit: 0
+    netProfit: 0
+  dayText: {fileID: 3666818043122222914}
+  startMoneyText: {fileID: 4723770422617471601}
+  endMoneyText: {fileID: 6794445044357072}
+  salesText: {fileID: 8622922739332214560}
+  grossText: {fileID: 3706379932533933123}
+  netText: {fileID: 8714783468683102163}
 --- !u!1 &8219123628764275771
 GameObject:
   m_ObjectHideFlags: 0

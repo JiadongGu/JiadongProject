@@ -1,29 +1,72 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 
 public class RetailBusiness : Singleton<RetailBusiness>
 {
     public RetailInventory inventory;
-    [ReadOnly] public List<RetailInventory.InventoryStock> stockHistory = new List<RetailInventory.InventoryStock>();
+    public RetailHistoryBar historyBarPrefab;
+    public Transform historyBarParent;
+    [ReadOnly] public List<RetailInventory.InventoryStock> stockHistories = new List<RetailInventory.InventoryStock>();
+    [ReadOnly] public List<RetailInventory.InventoryStock> stockHistoriesToday = new List<RetailInventory.InventoryStock>();
+    [ReadOnly] public List<RetailHistory> retailHistories = new List<RetailHistory>();
+
+    [HorizontalLine]
+
+    [ReadOnly] public float startMoneyToday;
+    [ReadOnly] public float moneySpentTodayOnOrders;
+    [ReadOnly] public int day;
+    public float currentTime;
+    [Min(0)] public float endDayTime;
+
+    [HorizontalLine]
+
+    public TMP_Text dayText;
+    public TMP_Text timeText;
+    public TMP_Text salesTodayText;
+    public TMP_Text grossTodayText;
+    public TMP_Text netTodayText;
+
+    public TMP_Text ordersCostTodayText;
+    public TMP_Text itemsSoldTodayText;
+
+    Action OnStockHistoryTodayUpdated;
+
+    void Start()
+    {
+        day = 1;
+        startMoneyToday = MoneyManager.Instance.money;
+
+        OnStockHistoryTodayUpdated += UpdateTodayInfoTexts;
+    }
+
+    void Update()
+    {
+        UpdateTime();
+    }
 
     [Button]
     public void TestSellRandomItem()
     {
-        if(inventory.myStockItems.Count == 0) return;
-        
-        RetailInventory.InventoryStock stockToSell = inventory.myStockItems[Random.Range(0, inventory.myStockItems.Count )];
+        if (inventory.myStockItems.Count == 0) return;
+
+        RetailInventory.InventoryStock stockToSell = inventory.myStockItems[UnityEngine.Random.Range(0, inventory.myStockItems.Count)];
         SellItem(stockToSell, 1);
     }
 
     public void SellItem(RetailInventory.InventoryStock stockItem, int amount)
     {
-        if(inventory.RemoveItemFromInventory(stockItem.itemData, amount))   // "Hey customer, we have enough of this item to sell to you :)"
+        if (inventory.RemoveItemFromInventory(stockItem.itemData, amount))   // "Hey customer, we have enough of this item to sell to you :)"
         {
             float totalPrice = stockItem.sellPrice * amount;
-            stockHistory.Find(x=>x.itemData == stockItem.itemData).sold += amount;
+            stockHistories.Find(x => x.itemData == stockItem.itemData).sold += amount;
             MoneyManager.Instance.ChangeMoney(totalPrice);
-            
+
+            AddToTodayStockHistory(stockItem, sold: amount);
+
             print($"Sold x{amount} of {stockItem.itemData.itemName} for ${totalPrice}.");
         }
         else
@@ -34,7 +77,7 @@ public class RetailBusiness : Singleton<RetailBusiness>
 
     public void AddToStockHistory(RetailInventory.InventoryStock stock)
     {
-        foreach (var s in stockHistory) // Look through current history, and find the existing stock, if found, exit
+        foreach (var s in stockHistories) // Look through current history, and find the existing stock, if found, exit
         {
             if (s.itemData == stock.itemData)
             {
@@ -44,6 +87,121 @@ public class RetailBusiness : Singleton<RetailBusiness>
         }
 
         // If not found stock, then add reference to history
-        stockHistory.Add(stock);
+        stockHistories.Add(stock);
+    }
+
+    public void AddToTodayStockHistory(RetailInventory.InventoryStock stock, int sold)
+    {
+        foreach (var s in stockHistoriesToday) // Look through current history, and find the existing stock, if found, exit
+        {
+            if (s.itemData == stock.itemData)
+            {
+                s.sold += sold;
+                s.sellPrice = stock.sellPrice;
+                s.quantity = stock.quantity;
+                OnStockHistoryTodayUpdated?.Invoke();
+                return;
+            }
+        }
+
+        RetailInventory.InventoryStock newStock = new RetailInventory.InventoryStock();
+        newStock.SetProperties(stock, excludeSold: true);
+        newStock.sold = sold;
+
+        // If not found stock, then add reference to history
+        stockHistoriesToday.Add(newStock);
+        OnStockHistoryTodayUpdated?.Invoke();
+    }
+
+    public void AddToMoneySpentOnOrdersToday(float amount)
+    {
+        moneySpentTodayOnOrders += amount;
+    }
+
+    void AddCurrentDayHistory()
+    {
+        RetailHistory newHistory = new RetailHistory
+        {
+            day = this.day,
+            startMoney = startMoneyToday,
+            endMoney = MoneyManager.Instance.money,
+
+            stockHistories = this.stockHistoriesToday
+        };
+
+        newHistory.salesRevenue = newHistory.GetCalculatedSalesRevenue();
+        newHistory.grossProfit = newHistory.GetCalculatedGrossProfit(moneySpentTodayOnOrders);
+
+        retailHistories.Insert(0, newHistory);
+        RetailHistoryBar bar = Instantiate(historyBarPrefab, historyBarParent);
+        bar.transform.SetAsFirstSibling();
+        bar.Init(newHistory);
+    }
+
+    void UpdateTime()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime >= endDayTime)
+        {
+            AddCurrentDayHistory();
+            stockHistoriesToday.Clear();
+            moneySpentTodayOnOrders = 0;
+            OnStockHistoryTodayUpdated?.Invoke();
+
+            currentTime = 0;
+            day++;
+            startMoneyToday = MoneyManager.Instance.money;
+        }
+
+        timeText.text = SecondsToTimeString(currentTime, endDayTime);
+        dayText.text = $"Day {day}";
+    }
+
+    string SecondsToTimeString(float seconds, float totalSeconds)
+    {
+        TimeSpan startTime = new TimeSpan(7, 0, 0); // Start time at 7 AM
+        double totalGameHours = 15; // Total hours from 7 AM to 10 PM
+        TimeSpan timeSpan = TimeSpan.FromHours((seconds / totalSeconds) * totalGameHours);
+        DateTime time = DateTime.Today.Add(startTime).Add(timeSpan);
+        return time.ToString("hh:mm tt");
+    }
+    
+    void UpdateTodayInfoTexts()
+    {
+        float salesToday = stockHistoriesToday.Sum(x => x.sellPrice * x.sold);
+        float grossToday = salesToday - moneySpentTodayOnOrders;
+        salesTodayText.text = $"${salesToday:F2}";
+        grossTodayText.text = $"${grossToday:F2}";
+        
+        ordersCostTodayText.text = $"${moneySpentTodayOnOrders:F2}";
+        itemsSoldTodayText.text = stockHistoriesToday.Sum(x => x.sold).ToString();
+    }
+
+    [System.Serializable]
+    public class RetailHistory
+    {
+        public int day;
+        public float startMoney;
+        public float endMoney;
+        public float salesRevenue;
+        public float grossProfit;
+        public float netProfit;
+
+        public List<RetailInventory.InventoryStock> stockHistories;
+
+        public float GetCalculatedSalesRevenue()
+        {
+            float totalRevenue = 0;
+            foreach (var stock in stockHistories)
+            {
+                totalRevenue += stock.sellPrice * stock.sold;
+            }
+            return totalRevenue;
+        }
+
+        public float GetCalculatedGrossProfit(float ordersCostSpent)
+        {
+            return salesRevenue - ordersCostSpent;
+        }
     }
 }

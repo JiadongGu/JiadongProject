@@ -116,6 +116,7 @@ public class RetailInventory : RetailCatalogBase
             if (item.itemData.name == retailItem.name)
             {
                 item.quantity++;
+                RetailBusiness.Instance.AddToTodayStockHistory(item, sold: 0);
                 OnStockUpdated?.Invoke(item);
                 return;
             }
@@ -127,6 +128,7 @@ public class RetailInventory : RetailCatalogBase
         myStockItems.Add(newStock);
 
         RetailBusiness.Instance.AddToStockHistory(newStock);
+        RetailBusiness.Instance.AddToTodayStockHistory(newStock, sold: 0);
 
         OnStockAdded?.Invoke(newStock);
     }

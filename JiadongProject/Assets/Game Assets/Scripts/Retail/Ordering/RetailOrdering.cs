@@ -34,6 +34,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
             print($"You do not have enough money to order x{quantity} + {shippingCost.ToString("F2")} shipping cost of {retailItem.itemName}!");
 
         MoneyManager.Instance.ChangeMoney(-totalCost);
+        RetailBusiness.Instance.AddToMoneySpentOnOrdersToday(totalCost);
         StartCoroutine(ReorderRoutine(retailItem, quantity, findStock.cogsPrice));
     }
 
