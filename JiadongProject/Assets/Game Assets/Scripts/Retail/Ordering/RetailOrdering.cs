@@ -24,10 +24,16 @@ public class RetailOrdering : Singleton<RetailOrdering>
         };
     }
 
-    public void ReorderItem(RetailItem retailItem, int quantity)
+    public void OrderItem(RetailItem retailItem, int quantity)
     {
-        RetailInventory.InventoryStock findStock = inventory.allAvailableItems.Find(item => item.itemData.itemName == retailItem.itemName);
-        MoneyManager.Instance.ChangeMoney(-findStock.cogsPrice);
+        RetailInventory.InventoryStock findStock = inventory.GetStockByItem(retailItem);
+        float shippingCost = findStock.shippingCost;
+        float totalCost = (quantity * findStock.cogsPrice) + shippingCost;
+
+        if(MoneyManager.Instance.money < totalCost)
+            print($"You do not have enough money to order x{quantity} + {shippingCost.ToString("F2")} shipping cost of {retailItem.itemName}!");
+
+        MoneyManager.Instance.ChangeMoney(-totalCost);
         StartCoroutine(ReorderRoutine(retailItem, quantity, findStock.cogsPrice));
     }
 
@@ -71,6 +77,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
     {
         StatusItem newOrderItem = new StatusItem(retailItem, quantity);
         newOrderItem.cogsPrice = cogsPrice;
+        newOrderItem.shippingCost = inventory.GetStockByItem(retailItem).shippingCost;
 
         AddNewOrderCard(newOrderItem);
 
@@ -96,7 +103,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
     public void TestReorder()
     {
         RetailItem randomItem = inventory.GetRandomSupplyChain().GetRandomRetailItem();
-        ReorderItem(randomItem, 1);
+        OrderItem(randomItem, 1);
     }
 
     [System.Serializable]
@@ -107,6 +114,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
         public int quantity;
         public float etaTime;
         [AllowNesting][ReadOnly] public float cogsPrice;
+        [AllowNesting][ReadOnly] public float shippingCost;
 
         public StatusItem(RetailItem retailItem, int quantity)
         {

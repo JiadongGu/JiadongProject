@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RetailItemOrderSearchCard : MonoBehaviour
+public class RetailItemOrderSearchCard : RetailCatalogElement
 {
-    [ReadOnly] public RetailInventory.InventoryStock stock;
     [ReadOnly] public float totalPrice;
 
     [HorizontalLine]
@@ -16,6 +13,7 @@ public class RetailItemOrderSearchCard : MonoBehaviour
     public Image icon;
     public TMP_Text nameText;
     public TMP_Text cogsPriceText;
+    public TMP_Text shippingCostText;
     public TMP_Text totalPriceText;
     public Button orderButton;
     public Button subtractButton;
@@ -25,15 +23,16 @@ public class RetailItemOrderSearchCard : MonoBehaviour
 
     Action OnQuantityChange;
 
-    public void Init(RetailInventory.InventoryStock stock)
+    public override void Init(RetailInventory.InventoryStock stock)
     {
-        this.stock = stock;
+        base.Init(stock);
 
         nameText.text = stock?.itemData?.itemName;
         icon.sprite = stock?.itemData?.icon;
         SetQuantity(stock.reorderAmount);
 
         cogsPriceText.text = "COGS: $" + stock?.cogsPrice.ToString("F2");
+        shippingCostText.text = "Shipping: $" + stock?.shippingCost.ToString("F2");
         UpdateTotalPrice();
 
         quantityField.onValueChanged.RemoveAllListeners();
@@ -64,15 +63,12 @@ public class RetailItemOrderSearchCard : MonoBehaviour
             return;
         }
             
-        if(MoneyManager.Instance.money >= totalPrice)
-            RetailOrdering.Instance.ReorderItem(stock.itemData, GetOrderAmount());
-        else
-            print($"You do not have enough money to order {GetOrderAmount()}x of {stock.itemData.itemName}!");
+        RetailOrdering.Instance.OrderItem(stock.itemData, GetOrderAmount());
     }
 
     void UpdateTotalPrice()
     {
-        totalPrice = stock.reorderAmount * stock.cogsPrice;
+        totalPrice = (stock.reorderAmount * stock.cogsPrice) + stock.shippingCost;
         totalPriceText.text = "Total: $" + totalPrice.ToString("F2");
     }
 

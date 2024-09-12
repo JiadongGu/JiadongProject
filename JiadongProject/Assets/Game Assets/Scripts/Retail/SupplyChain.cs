@@ -18,6 +18,7 @@ public class SupplyChain : ScriptableObject
     {
         public string companyName;
         [ShowAssetPreview] public Sprite companyIcon;
+        public int shippingCost = 5;
         [Expandable] public List<RetailItem> retailItems = new List<RetailItem>();
     }
 

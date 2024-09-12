@@ -25,6 +25,12 @@ public class MenusManager : MonoBehaviour
         }
     }
 
+    public void ShowMenuPanel(int index, bool show)
+    {
+        ShowMenuPanels(false);
+        menuConnectors[index].menuPanel.SetActive(show);
+    }
+
     void ShowMenuPanels(bool show)
     {
         GetAllMenuPanels().ForEach(x=>x.SetActive(show));

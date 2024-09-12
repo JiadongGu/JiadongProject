@@ -23,7 +23,9 @@ public class RetailOrderCard : MonoBehaviour
         idText.text = "ID: " + statusItem?.id;
         icon.sprite = statusItem?.item?.icon;
         quantityText.text = "Quantity: " + statusItem?.quantity;
-        priceText.text = "Price: $" + statusItem?.cogsPrice.ToString("F2");
+
+        float? totalPrice = (statusItem?.cogsPrice * statusItem?.quantity) + statusItem?.shippingCost;
+        priceText.text = "Price: $" + totalPrice?.ToString("F2");
     }
 
     void Update()
