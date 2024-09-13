@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    public Transform cam;
     [SerializeField] float moveSpeed = 20f;
     [SerializeField] float scrollSpeed = 10f;
     [SerializeField] float rotateSpeed = 100f;
     [SerializeField] float panSpeed = 20f;
+
+    [HorizontalLine]
+
+    [SerializeField] float minY = 20;
+    [SerializeField] float maxY = 80;
+
     Vector3 dragOrigin;
 
     void Update()
@@ -23,17 +31,24 @@ public class CameraControl : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(h, 0, v);
-        transform.Translate(direction * moveSpeed * Time.deltaTime, Space.Self);
-        Vector3 pos = transform.position;
-        pos.y = Mathf.Clamp(pos.y, pos.y, pos.y); // Maintain the current y position
-        transform.position = pos;
+        cam.Translate(direction * moveSpeed * Time.deltaTime, Space.Self);
+
+        // Clamp the Y position of the camera between minY and maxY
+        Vector3 pos = cam.position;
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        cam.position = pos;
     }
 
     void Scroll()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        Vector3 direction = transform.forward * scroll * scrollSpeed;
-        transform.Translate(direction, Space.World);
+        Vector3 direction = cam.forward * scroll * scrollSpeed;
+        cam.Translate(direction, Space.World);
+
+        // Clamp the Y position of the camera between minY and maxY after scrolling
+        Vector3 pos = cam.position;
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+        cam.position = pos;
     }
 
     void Rotate()
@@ -41,7 +56,7 @@ public class CameraControl : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             float h = Input.GetAxis("Mouse X");
-            transform.RotateAround(transform.position, Vector3.up, h * rotateSpeed * Time.deltaTime);
+            cam.RotateAround(cam.position, Vector3.up, h * rotateSpeed * Time.deltaTime);
         }
     }
 
@@ -52,7 +67,7 @@ public class CameraControl : MonoBehaviour
         {
             Vector3 difference = Camera.main.ScreenToViewportPoint(dragOrigin - Input.mousePosition);
             Vector3 move = new Vector3(difference.x * panSpeed, difference.y * panSpeed, 0);
-            transform.Translate(move, Space.Self);
+            cam.Translate(move, Space.Self);
             dragOrigin = Input.mousePosition;
         }
     }

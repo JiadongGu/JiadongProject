@@ -11,9 +11,9 @@ public class RetailInfoPanel : Singleton<RetailInfoPanel>
     public TMP_InputField sellField;
 
     [HorizontalLine]
-    public MenusManager menusManager;
     public RetailOrderSearchPanel orderSearchPanel;
     public int menuIndex;
+    public int orderPanelIndex;
     public Button orderButton;
 
     void Start()
@@ -27,7 +27,7 @@ public class RetailInfoPanel : Singleton<RetailInfoPanel>
             orderSearchPanel.searchField.text = stockItemName;
             orderSearchPanel.searchField.onValueChanged?.Invoke(stockItemName);
 
-            menusManager.ShowMenuPanel(menuIndex, true);
+            MenusManager.Instance.ShowPanelFromMenu(menuIndex, orderPanelIndex, true);
         });
 
         sellField.onValueChanged.AddListener(OnSellFieldValueChangedCallback);

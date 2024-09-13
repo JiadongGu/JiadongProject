@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using cakeslice;
+using NaughtyAttributes;
+using UnityEngine;
+
+public class PlayerClicker : Singleton<PlayerClicker>
+{
+    public Camera cam;
+
+    [ReadOnly] public CityClicker hoveringObj;
+
+    void Update()
+    {
+        DetectObjectClick();
+    }
+
+    void DetectObjectClick()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.TryGetComponent<CityClicker>(out CityClicker cityClicker))
+            {
+                hoveringObj = cityClicker;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    cityClicker.OnClick();
+                }
+            }
+            else
+            {
+                hoveringObj = null;
+            }
+        }
+        else
+        {
+            hoveringObj = null;
+        }
+    }
+}
