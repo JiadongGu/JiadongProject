@@ -17,6 +17,7 @@ MonoBehaviour:
   companies:
   - companyName: Elooge
     companyIcon: {fileID: 0}
+    shippingCost: 5
     retailItems:
     - {fileID: 11400000, guid: 199efb5689ee042c9ae4cb15acc89046, type: 2}
     - {fileID: 11400000, guid: ca42fc9aae2d7486ea60a00f1a109a88, type: 2}
@@ -25,14 +26,15 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 62dd6e1793359474381db3c0902358de, type: 2}
   - companyName: Screnfacer
     companyIcon: {fileID: 0}
+    shippingCost: 5
     retailItems:
     - {fileID: 11400000, guid: 5911379a0255b4583a3feb2faed34811, type: 2}
     - {fileID: 11400000, guid: 56bb9f31ee1864973a5548d062993f82, type: 2}
-    - {fileID: 11400000, guid: 7984c18de9b264d2fac6b2dc206577c4, type: 2}
     - {fileID: 11400000, guid: 863524d6704d54a339ab4e7cad15c860, type: 2}
     - {fileID: 11400000, guid: 907057add83c84c98a8b790e69db46dd, type: 2}
   - companyName: Etech
     companyIcon: {fileID: 0}
+    shippingCost: 5
     retailItems:
     - {fileID: 11400000, guid: 90477aba9f1ae4cbebeb8cf5da22d707, type: 2}
     - {fileID: 11400000, guid: c04e2b555fe5b41e98799767e0f64a99, type: 2}

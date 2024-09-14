@@ -135,9 +135,9 @@ public class RetailCustomers : MonoBehaviour
             return 2;
         else if (hour >= 10 && hour < 15) // 10 AM to 3 PM
             return 3;
-        else if (hour >= 15 && hour < 19) // 3 PM to 7 PM
+        else if (hour >= 15 && hour < 22) // 3 PM to 10 PM
             return 1;
         else
-            return 0; // No traffic outside of 7 AM to 7 PM
+            return 0; // No traffic outside of 7 AM to 10 PM
     }
 }
