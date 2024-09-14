@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Catchy Bracelets
   orderTimeSeconds: 5
   cogsRange: {x: 15, y: 40}
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3297064ecb65a4e7784639db558521cf, type: 3}
