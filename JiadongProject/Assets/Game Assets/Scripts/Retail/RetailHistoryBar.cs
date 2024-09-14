@@ -19,7 +19,7 @@ public class RetailHistoryBar : MonoBehaviour
         retailHistory = history;
         if(history != null)
         {
-            dayText.text = retailHistory.day + "";
+            dayText.text = $"D: {retailHistory.day} | M: {retailHistory.month}";
             startMoneyText.text = "$" + retailHistory.startMoney.ToString("F2");
             endMoneyText.text = "$" + retailHistory.endMoney.ToString("F2");
             salesText.text = "$" + retailHistory.salesRevenue.ToString("F2");

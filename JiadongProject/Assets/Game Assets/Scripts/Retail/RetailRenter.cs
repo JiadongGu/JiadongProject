@@ -30,10 +30,16 @@ public class RetailRenter : Singleton<RetailRenter>
         {
             if (viewingRetailBuilding != null)
             {
-                RentBuilding(viewingRetailBuilding);
+                if(IOwnRetailBuilding() == false) RentBuilding(viewingRetailBuilding);
+                else ShowStoreHub();
             }
             else
             {
+                if(IOwnRetailBuilding())
+                {
+                    ShowStoreHub();
+                    return;
+                }
                 print("Something went wrong... You are renting a building you cannot see.");
             }
         });
@@ -59,7 +65,10 @@ public class RetailRenter : Singleton<RetailRenter>
         {
             MoneyManager.Instance.ChangeMoney(-building.totalRent);
             myRetailBuilding = building;
+            viewingRetailBuilding = null;
             ShowStoreHub();
+            RetailBusiness.Instance.UpdateTodayInfoTexts();
+            rentButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "VIEW";
         }
         else
         {
@@ -72,4 +81,6 @@ public class RetailRenter : Singleton<RetailRenter>
         MenusManager.Instance.ShowAllCanvas(false);
         MenusManager.Instance.ShowPanelFromMenu(retailMenu, storeHubPanel, true);
     }
+
+    public bool IOwnRetailBuilding() => myRetailBuilding != null;
 }

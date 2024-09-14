@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,12 @@ public class RetailInventory : RetailCatalogBase
 {
     [Expandable] public List<SupplyChain> allSupplyChains = new List<SupplyChain>();
     [ReadOnly] public List<InventoryStock> allAvailableItems = new List<InventoryStock>();
+    [ReadOnly] public int capacity;
     public List<InventoryStock> myStockItems = new List<InventoryStock>();
 
     [HorizontalLine]
 
+    public TMP_Text capacityText;
     public Transform slotsParent;
     public RetailCatalogElement invSlotPrefab;
 
@@ -22,18 +25,20 @@ public class RetailInventory : RetailCatalogBase
     public System.Action OnAvailableItemsRefreshed;
 
     RetailInfoPanel infoPanel;
+    RetailRenter renter;
 
     public override void Init()
     {
         inventory.OnAvailableItemsRefreshed += UpdateResult;
         inventory.OnAvailableItemsRefreshed += PopulateDropdownCompanies;
-        
+
         base.Init();
     }
 
     void Start()
     {
         PopulateAvailableItems();
+        renter = RetailRenter.Instance;
         infoPanel = RetailInfoPanel.Instance;
 
         OnStockAdded += (stock) =>
@@ -46,26 +51,31 @@ public class RetailInventory : RetailCatalogBase
         };
         OnStockUpdated += (stock) =>
         {
-            RetailInventorySlot invSlot = (RetailInventorySlot)spawnedCatalogElements.Find(x=>x.stock.itemData == stock.itemData);
+            RetailInventorySlot invSlot = (RetailInventorySlot)spawnedCatalogElements.Find(x => x.stock.itemData == stock.itemData);
             invSlot.Init(stock);
         };
         OnStockRemoved += (stock) =>
         {
-            RetailInventorySlot invSlot = (RetailInventorySlot)spawnedCatalogElements.Find(x=>x.stock.itemData == stock.itemData);
-            int i = spawnedCatalogElements.FindIndex(x=>x.stock.itemData == stock.itemData);
+            RetailInventorySlot invSlot = (RetailInventorySlot)spawnedCatalogElements.Find(x => x.stock.itemData == stock.itemData);
+            int i = spawnedCatalogElements.FindIndex(x => x.stock.itemData == stock.itemData);
             Destroy(spawnedCatalogElements[i].gameObject);
             spawnedCatalogElements.RemoveAt(i);
-            
-            
-            if(infoPanel.inventoryStock.itemData == stock.itemData)
+
+
+            if (infoPanel.inventoryStock?.itemData == stock.itemData)
             {
                 infoPanel.UpdateInfo(null);
             }
-            
+
             UpdateNoneText();
         };
 
         UpdateNoneText();
+    }
+
+    void Update()
+    {
+        UpdateCapacityText();
     }
 
     void PopulateAvailableItems()
@@ -98,6 +108,12 @@ public class RetailInventory : RetailCatalogBase
         noneText.SetActive(spawnedCatalogElements.Count == 0);
     }
 
+    void UpdateCapacityText()
+    {
+        if (renter.IOwnRetailBuilding())
+            capacityText.text = $"Items: {capacity}/{renter.myRetailBuilding.capacity}";
+    }
+
     [Button]
     public void AddRandomItemToStock()
     {
@@ -109,28 +125,53 @@ public class RetailInventory : RetailCatalogBase
         AddItemToInventory(randomRetailItem);
     }
 
-    public void AddItemToInventory(RetailItem retailItem, float cogsPrice = 0)
+    public bool AddItemToInventory(RetailItem retailItem, int amount)
     {
+        if (capacity + amount >= renter.myRetailBuilding.capacity)
+        {
+            print("Cannot add more items, you are at capacity!");
+            return false;
+        }
+        for (int i = 0; i < amount; i++)
+        {
+            AddItemToInventory(retailItem);
+        }
+        return true;
+    }
+
+    public bool AddItemToInventory(RetailItem retailItem)
+    {
+        if (renter.IOwnRetailBuilding())
+        {
+            if (capacity >= renter.myRetailBuilding.capacity)
+            {
+                print("Cannot add more items, you are at capacity!");
+                return false;
+            }
+        }
         foreach (var item in myStockItems) // Look through current inventory, and find the existing item, if found, quantity++
         {
             if (item.itemData.name == retailItem.name)
             {
                 item.quantity++;
+                capacity++;
                 RetailBusiness.Instance.AddToTodayStockHistory(item, sold: 0);
                 OnStockUpdated?.Invoke(item);
-                return;
+                return true;
             }
         }
 
         // If not found new retail item, then add a new inventory stock
         InventoryStock newStock = allAvailableItems.FirstOrDefault(item => item.itemData == retailItem);
         newStock.quantity = 1;
+        capacity++;
         myStockItems.Add(newStock);
 
         RetailBusiness.Instance.AddToStockHistory(newStock);
         RetailBusiness.Instance.AddToTodayStockHistory(newStock, sold: 0);
 
         OnStockAdded?.Invoke(newStock);
+        return true;
     }
 
     public bool RemoveItemFromInventory(RetailItem retailItem, int amount)
@@ -197,7 +238,7 @@ public class RetailInventory : RetailCatalogBase
             shippingCost = stock.shippingCost;
             sellPrice = stock.sellPrice;
             quantity = stock.quantity;
-            if(excludeSold == false) sold = stock.sold;
+            if (excludeSold == false) sold = stock.sold;
             reorderLevel = stock.reorderLevel;
             reorderAmount = stock.reorderAmount;
         }

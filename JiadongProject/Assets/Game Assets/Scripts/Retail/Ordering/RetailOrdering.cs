@@ -11,6 +11,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
 
     [HorizontalLine]
 
+    public GameObject capacityWarningPanel;
     public ObjectPooler orderCardPool;
     public GameObject noneText;
 
@@ -26,6 +27,13 @@ public class RetailOrdering : Singleton<RetailOrdering>
 
     public void OrderItem(RetailItem retailItem, int quantity)
     {
+        if(inventory.capacity + quantity > RetailRenter.Instance.myRetailBuilding.capacity)
+        {
+            print($"Cannot order {retailItem.itemName} x{quantity} because you're at capacity!");
+            capacityWarningPanel.SetActive(true);
+            return;
+        }
+
         RetailInventory.InventoryStock findStock = inventory.GetStockByItem(retailItem);
         float shippingCost = findStock.shippingCost;
         float totalCost = (quantity * findStock.cogsPrice) + shippingCost;
@@ -94,10 +102,7 @@ public class RetailOrdering : Singleton<RetailOrdering>
 
         RemoveOrderCard(newOrderItem.id);
 
-        for (int i = 0; i < quantity; i++)
-        {
-            inventory.AddItemToInventory(retailItem, cogsPrice);
-        }
+        inventory.AddItemToInventory(retailItem, quantity);
     }
 
     [Button]

@@ -61,18 +61,11 @@ public class RetailBuilding : MonoBehaviour
         cityClicker = GetComponent<CityClicker>();
         cityClicker.OnClickAction += () =>
         {
-            if (renter.myRetailBuilding == null)
+            if (renter.IOwnRetailBuilding() == false)
             {
                 SetRetailRenterPreviewToThis();
-                MenusManager.Instance.ShowPanelFromMenu(menu, panel, true);
             }
-            else
-            {
-                if(renter.myRetailBuilding == this)
-                {
-                    renter.ShowStoreHub();
-                }
-            }
+            MenusManager.Instance.ShowPanelFromMenu(menu, panel, true);
         };
 
         if (generateAtStart) GenerateRandomRent();
@@ -81,7 +74,7 @@ public class RetailBuilding : MonoBehaviour
     void Update()
     {
         
-        if(renter.myRetailBuilding == null)
+        if(renter.IOwnRetailBuilding() == false)
         {
             cityClicker.outline.enabled = PlayerClicker.Instance.hoveringObj == cityClicker;
         }

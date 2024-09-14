@@ -19,12 +19,16 @@ public class RetailBusiness : Singleton<RetailBusiness>
     [ReadOnly] public float startMoneyToday;
     [ReadOnly] public float moneySpentTodayOnOrders;
     [ReadOnly] public int day;
+    [ReadOnly] public int month;
     public float currentTime;
     [Min(0)] public float endDayTime;
+    [Min(1)] public float daysPerMonth;
+    [ReadOnly] public DateTime currentDateTime;
 
     [HorizontalLine]
 
     public TMP_Text dayText;
+    public TMP_Text monthText;
     public TMP_Text timeText;
     public TMP_Text salesTodayText;
     public TMP_Text grossTodayText;
@@ -33,19 +37,38 @@ public class RetailBusiness : Singleton<RetailBusiness>
     public TMP_Text ordersCostTodayText;
     public TMP_Text itemsSoldTodayText;
 
+    RetailRenter renter;
+
     Action OnStockHistoryTodayUpdated;
+    Action OnNewMonth;
 
     void Start()
     {
         day = 1;
+        month = 1;
+        renter = RetailRenter.Instance;
         startMoneyToday = MoneyManager.Instance.money;
 
         OnStockHistoryTodayUpdated += UpdateTodayInfoTexts;
+        OnNewMonth += BillRentUtilities;
     }
 
     void Update()
     {
         UpdateTime();
+    }
+
+    void BillRentUtilities()
+    {
+        if (renter.IOwnRetailBuilding() == false)
+        {
+            print("Cannot be billed on an unowned building!");
+            return;
+        }
+
+        float rent = renter.myRetailBuilding.totalRent;
+        print($"Billed ${rent}");
+        MoneyManager.Instance.ChangeMoney(-rent);
     }
 
     [Button]
@@ -123,6 +146,7 @@ public class RetailBusiness : Singleton<RetailBusiness>
         RetailHistory newHistory = new RetailHistory
         {
             day = this.day,
+            month = this.month,
             startMoney = startMoneyToday,
             endMoney = MoneyManager.Instance.money,
 
@@ -131,6 +155,7 @@ public class RetailBusiness : Singleton<RetailBusiness>
 
         newHistory.salesRevenue = newHistory.GetCalculatedSalesRevenue();
         newHistory.grossProfit = newHistory.GetCalculatedGrossProfit(moneySpentTodayOnOrders);
+        newHistory.netProfit = newHistory.GetCalculatedNetProfit(renter.myRetailBuilding.totalRent);
 
         retailHistories.Insert(0, newHistory);
         RetailHistoryBar bar = Instantiate(historyBarPrefab, historyBarParent);
@@ -140,6 +165,8 @@ public class RetailBusiness : Singleton<RetailBusiness>
 
     void UpdateTime()
     {
+        if (renter.IOwnRetailBuilding() == false) return;
+
         currentTime += Time.deltaTime;
         if (currentTime >= endDayTime)
         {
@@ -150,11 +177,19 @@ public class RetailBusiness : Singleton<RetailBusiness>
 
             currentTime = 0;
             day++;
+
+            if (day > daysPerMonth)
+            {
+                day = 1;
+                month++;
+                OnNewMonth?.Invoke();
+            }
             startMoneyToday = MoneyManager.Instance.money;
         }
 
         timeText.text = SecondsToTimeString(currentTime, endDayTime);
         dayText.text = $"Day {day}";
+        monthText.text = $"Month {month}";
     }
 
     string SecondsToTimeString(float seconds, float totalSeconds)
@@ -162,17 +197,34 @@ public class RetailBusiness : Singleton<RetailBusiness>
         TimeSpan startTime = new TimeSpan(7, 0, 0); // Start time at 7 AM
         double totalGameHours = 15; // Total hours from 7 AM to 10 PM
         TimeSpan timeSpan = TimeSpan.FromHours((seconds / totalSeconds) * totalGameHours);
-        DateTime time = DateTime.Today.Add(startTime).Add(timeSpan);
-        return time.ToString("hh:mm tt");
+        currentDateTime = DateTime.Today.Add(startTime).Add(timeSpan);
+        return currentDateTime.ToString("hh:mm tt");
     }
-    
-    void UpdateTodayInfoTexts()
+
+    public void UpdateTodayInfoTexts()
     {
         float salesToday = stockHistoriesToday.Sum(x => x.sellPrice * x.sold);
         float grossToday = salesToday - moneySpentTodayOnOrders;
+
         salesTodayText.text = $"${salesToday:F2}";
         grossTodayText.text = $"${grossToday:F2}";
-        
+        if (renter.IOwnRetailBuilding())
+        {
+            if (retailHistories.Count > 0)
+            {
+                List<RetailHistory> historyThisMonth = retailHistories.Where(x => x.month == month).ToList();
+
+                float grossThisMonth = historyThisMonth.Sum(x => x.grossProfit);
+                float netThisMonth = grossThisMonth - renter.myRetailBuilding.totalRent;
+                netTodayText.text = $"${netThisMonth:F2}";
+            }
+            else
+            {
+                float netToday = grossToday - renter.myRetailBuilding.totalRent;
+                netTodayText.text = $"${netToday:F2}";
+            }
+        }
+
         ordersCostTodayText.text = $"${moneySpentTodayOnOrders:F2}";
         itemsSoldTodayText.text = stockHistoriesToday.Sum(x => x.sold).ToString();
     }
@@ -181,6 +233,7 @@ public class RetailBusiness : Singleton<RetailBusiness>
     public class RetailHistory
     {
         public int day;
+        public int month;
         public float startMoney;
         public float endMoney;
         public float salesRevenue;
@@ -202,6 +255,11 @@ public class RetailBusiness : Singleton<RetailBusiness>
         public float GetCalculatedGrossProfit(float ordersCostSpent)
         {
             return salesRevenue - ordersCostSpent;
+        }
+
+        public float GetCalculatedNetProfit(float rent)
+        {
+            return grossProfit - rent;
         }
     }
 }
