@@ -39,7 +39,10 @@ public class RetailOrdering : Singleton<RetailOrdering>
         float totalCost = (quantity * findStock.cogsPrice) + shippingCost;
 
         if(MoneyManager.Instance.money < totalCost)
+        {
             print($"You do not have enough money to order x{quantity} + {shippingCost.ToString("F2")} shipping cost of {retailItem.itemName}!");
+            return;
+        }
 
         MoneyManager.Instance.ChangeMoney(-totalCost);
         RetailBusiness.Instance.AddToMoneySpentOnOrdersToday(totalCost);
