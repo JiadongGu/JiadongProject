@@ -13354,7 +13354,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1568768511}
   m_HandleRect: {fileID: 1568768510}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -53629,6 +53629,7 @@ GameObject:
   - component: {fileID: 2091852447}
   - component: {fileID: 2091852450}
   - component: {fileID: 2091852451}
+  - component: {fileID: 2091852452}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -53727,6 +53728,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   hoveringObj: {fileID: 0}
+--- !u!114 &2091852452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091852446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f085810ff0c0b78499895c4041d19096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2093152375
 PrefabInstance:
   m_ObjectHideFlags: 0
