@@ -8,7 +8,7 @@ using System;
 public class CityClicker : MonoBehaviour
 {
     [HideInInspector] public Outline outline;
-    public Action OnClickAction;
+    public Action<CityClicker> OnClickAction;
 
     void Start()
     {
@@ -23,6 +23,6 @@ public class CityClicker : MonoBehaviour
 
     public void OnClick()
     {
-        OnClickAction?.Invoke();
+        OnClickAction?.Invoke(this);
     }
 }

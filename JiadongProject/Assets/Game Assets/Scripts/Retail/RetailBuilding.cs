@@ -59,13 +59,17 @@ public class RetailBuilding : MonoBehaviour
         worldPointer = GetComponentInChildren<LookAtFollower>();
         renter = RetailRenter.Instance;
         cityClicker = GetComponent<CityClicker>();
-        cityClicker.OnClickAction += () =>
+        cityClicker.OnClickAction += (whoGotClick) =>
         {
             if (renter.IOwnRetailBuilding() == false)
             {
                 SetRetailRenterPreviewToThis();
+                MenusManager.Instance.ShowPanelFromMenu(menu, panel, true);
+                return;
             }
-            MenusManager.Instance.ShowPanelFromMenu(menu, panel, true);
+
+            if(whoGotClick.GetComponent<RetailBuilding>() == this && this == renter.myRetailBuilding)
+                MenusManager.Instance.ShowPanelFromMenu(menu, panel, true);
         };
 
         if (generateAtStart) GenerateRandomRent();
